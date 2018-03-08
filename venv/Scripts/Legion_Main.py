@@ -9,7 +9,7 @@ import speech_recognition as sr
 import pyperclip
 import tweepy as tp
 
-
+#For getting legion to respond to you with voice
 def talkToMe(audio):
     print(audio)
     tts = gTTS(text=audio, lang='en')
@@ -17,21 +17,53 @@ def talkToMe(audio):
     #os.system('mpg123 audio.mp3')
     webbrowser.open("audio.mp3")
 
+#For issuing new commands via voice
+def subCommand(instruction):
+    subCommandListener = sr.Recognizer()
+    talkToMe(str(instruction))
+    with sr.Microphone() as source:
+        #I'll put this in a function later
+        # Twitter API creds
+        subCommandAudio = subCommandListener.listen(source, timeout = 1)                                        #instantiating the Microphone, (timeout = None) can be an option
+        subCommandText = str(subCommandListener.recognize_google(subCommandAudio))
+        print(subCommandText)
+        talkToMe(subCommandText)
+        return subCommandText
+
+#Twitter API generator
+def twitterAPI():
+    consumer_key = 'ca8rUBOtfMWzWij5A639Qsuhi'
+    consumer_secret = 'P3eo3oKdjzEAd0sOfxRzDZ7o40zbtna9U0PYPUEmv96Pbim5A7'
+    access_token = '957203182475759616-W0prNVQjitTr7WOTEtP7STrYJXwBKae'
+    access_secret = 'euGBXajTSEiVTuxnNxvFZRwoDLEg1bawjSa3bD8pyxqMI'
+
+    #Login in dat ish
+    auth = tp.OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_token, access_secret)
+    global api
+    api = tp.API(auth)
+
+
+
 cl = wolframalpha.Client('HE5HVG-RY4HA53WK4')
 #att = cl.query('Test/Attempt')                                                                      #selecting ivona voice
 r = sr.Recognizer()                                                                         #starting the speech_recognition recognizer
 r.pause_threshold = 0.7                                                                     #it works with 1.2 as well
 r.energy_threshold = 400
                                           #to handle keyboard events
-talkToMe('Yo whats up"...')
+print('Say command')
 print("For a list of commands, please say: 'keyword list'...")
+#Creating the Twitter API object for global use...Yeah yeah yeah it's bad doing it this way. I'll fix it later
+twitterAPI()
 
 
 #List of Available Commands
 
+test = 'Test new command'
 keywd = 'keyword list'
 google = 'search for'
 tweet = 'write a tweet'
+look_for_profile = 'find a profile'
 slide_into_DM = 'Slide into'
 acad = 'academic search'
 sc = 'deep search'
@@ -50,7 +82,7 @@ how = 'how'
 paint = 'open paint'
 lsp = 'silence please'
 lsc = 'resume listening'
-stoplst = 'stop listening'
+stoplst = 'Legion terminate'
 
 while True:                                                                                 #The main loop
 
@@ -72,22 +104,33 @@ while True:                                                                     
                 webbrowser.open(url)
                 talkToMe('Google Results for: '+str(st))
 
-            elif tweet in message:
-                #Had to create new instance of voice to text conversion because I couldnt piggy off the main one, its basically a sub command #what happens when tweet keyword is recognized
-                TweetR = sr.Recognizer()
-                talkToMe('What would you like to tweet')
-                with sr.Microphone() as source:
-                    #I'll put this in a function later
-                    # Twitter API creds
-                    tweet_status = TweetR.listen(source, timeout = None)                                        #instantiating the Microphone, (timeout = None) can be an option
-                    actual_tweet = str(TweetR.recognize_google(tweet_status))
-                    print(actual_tweet)
-                    talkToMe(actual_tweet)
-                    consumer_key = 'ca8rUBOtfMWzWij5A639Qsuhi'
-                    consumer_secret = 'P3eo3oKdjzEAd0sOfxRzDZ7o40zbtna9U0PYPUEmv96Pbim5A7'
-                    access_token = '957203182475759616-W0prNVQjitTr7WOTEtP7STrYJXwBKae'
-                    access_secret = 'euGBXajTSEiVTuxnNxvFZRwoDLEg1bawjSa3bD8pyxqMI'
+            #Just a test for the sub command function
+            elif test in message:
+                print('Testing ' + subCommand('Testing the sub command function'))
 
+            elif tweet in message:
+                actual_tweet = subCommand('What would you like to tweet')
+                print(actual_tweet)
+                talkToMe(actual_tweet)
+                #String manipulation witchcraft
+                words = message.split()
+                del words[0:2]
+                st = ' '.join(words)
+                #print('Academic Results for: '+str(st))
+                url = 'https://twitter.com/swagggyyyy_p'
+                webbrowser.open(url)
+                api.update_status(actual_tweet)
+
+            elif look_for_profile in message:
+                Find_Profile_Command = subCommand('What would you like to tweet')
+                #Twitter_Sub_Commands
+                Twitter_Follow_Profile = 'follow the profile'
+                Twitter_DM_Profile = 'DM the person'
+                Twitter_Tweet_At_Profile = 'tweet at'
+                #If profile found what to do next(Exception handling will come later for when profile is not found -_-
+                #if Twitter_Tweet_At_Profile in Twitter_Actual_Sub_Command:
+                if Twitter_Tweet_At_Profile in Find_Profile_Command:
+                    talkToMe('What would you like to tweet at that profile?')
                     #Login in dat ish
                     auth = tp.OAuthHandler(consumer_key, consumer_secret)
                     auth.set_access_token(access_token, access_secret)
@@ -95,10 +138,14 @@ while True:                                                                     
                     words = message.split()
                     del words[0:2]
                     st = ' '.join(words)
-                    #print('Academic Results for: '+str(st))
-                    #url='https://scholar.google.ro/scholar?q='+st
-                    #webbrowser.open(url)
-                    api.update_status(actual_tweet)
+                    Twitter_Actual_Sub_Command_Tweet_At_String = subCommand('What would you like to tweet atr the profile?')
+                    print('@ ' + str(user.id) + Twitter_Actual_Sub_Command_Tweet_At_String)
+                    talkToMe('@ ' + str(user.id) + Twitter_Actual_Sub_Command_Tweet_At_String)
+                    api.update_status(Twitter_Actual_Sub_Command_Tweet_At_String, user.id)
+
+
+
+
 
             elif acad in message:                                                           #what happens when acad keyword is recognized
 
@@ -379,7 +426,7 @@ while True:                                                                     
                     talkToMe('Google Results for: '+str(message))
 
             elif stoplst in message:                                                        #what happens when stoplst keyword is recognized
-                talkToMe("I am shutting down")
+                talkToMe("Legion system shutting down")
                 print("Shutting down...")
                 break
 
