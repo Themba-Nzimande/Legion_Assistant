@@ -14,6 +14,8 @@ def talkToMe(audio):
     tts = gTTS(text=audio, lang='en')
     tts.save('audio.mp3')
     #os.system('mpg123 audio.mp3')
+    browser_path = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+    webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
     webbrowser.get('chrome').open("audio.mp3")
 
 
@@ -54,9 +56,7 @@ lsp = 'silence please'
 lsc = 'resume listening'
 stoplst = 'stop listening'
 
-#Broswer default
-browser_path = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
-webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
+
 
 while True:  # The main loop
 
@@ -76,6 +76,9 @@ while True:  # The main loop
                 st = ' '.join(words)
                 print('Google Results for: '+str(st.replace))
                 url = 'http://google.com/search?q='+st
+                #Broswer default
+                browser_path = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+                webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
                 webbrowser.get('chrome').open(url)
                 talkToMe('Google Results for: '+str(st))
 
@@ -115,6 +118,8 @@ while True:  # The main loop
                 st = ' '.join(words)
                 print('Academic Results for: '+str(st))
                 url = 'https://scholar.google.ro/scholar?q='+st
+                browser_path = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+                webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
                 webbrowser.get('chrome').open(url)
                 talkToMe('Academic Results for: '+str(st))
 
@@ -210,6 +215,8 @@ while True:  # The main loop
                 st = ' '.join(words)
                 print('Video Results for: '+str(st))
                 url = 'https://www.youtube.com/results?search_query='+st
+                browser_path = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+                webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
                 webbrowser.get('chrome').open(url)
                 talkToMe('Video Results for: '+str(st))
 
@@ -235,6 +242,8 @@ while True:  # The main loop
                     st = ' '.join(words)
                     print('Google Results for: '+str(st))
                     url = 'http://google.com/search?q='+st
+                    browser_path = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+                    webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
                     webbrowser.get('chrome').open(url)
                     talkToMe('Google Results for: '+str(st))
 
@@ -260,6 +269,8 @@ while True:  # The main loop
                     st = ' '.join(words)
                     print('Google Results for: '+str(st))
                     url = 'http://google.com/search?q='+st
+                    browser_path = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+                    webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
                     webbrowser.get('chrome').open(url)
                     talkToMe('Google Results for: '+str(st))
 
@@ -291,6 +302,8 @@ while True:  # The main loop
                         st = ' '.join(words)
                         print('Google Results (last exception) for: '+str(st))
                         url = 'http://google.com/search?q='+st
+                        browser_path = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+                        webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
                         webbrowser.get('chrome').open(url)
                         talkToMe('Google Results for: '+str(st))
 
@@ -325,6 +338,8 @@ while True:  # The main loop
                         st = ' '.join(words)
                         print('Google Results for: '+str(st))
                         url = 'http://google.com/search?q='+st
+                        browser_path = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+                        webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
                         webbrowser.get('chrome').open(url)
                         talkToMe('Google Results for: '+str(st))
 
@@ -345,6 +360,8 @@ while True:  # The main loop
 
                     print('Google Results for: '+str(message))
                     url = 'http://google.com/search?q='+str(message)
+                    browser_path = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+                    webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
                     webbrowser.get('chrome').open(url)
                     talkToMe('Google Results for: '+str(message))
 
@@ -365,6 +382,8 @@ while True:  # The main loop
 
                     print('Google Results for: '+str(message))
                     url = 'http://google.com/search?q='+str(message)
+                    browser_path = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+                    webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
                     webbrowser.get('chrome').open(url)
                     talkToMe('Google Results for: '+str(message))
 
@@ -385,6 +404,8 @@ while True:  # The main loop
 
                     print('Google Results for: '+str(message))
                     url = 'http://google.com/search?q='+str(message)
+                    browser_path = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+                    webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
                     webbrowser.get('chrome').open(url)
                     talkToMe('Google Results for: '+str(message))
 
